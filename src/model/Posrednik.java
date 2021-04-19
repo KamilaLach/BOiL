@@ -162,7 +162,7 @@ public class Posrednik {
                 }
             }
             temp = temp + 1;
-        } while (temp < 1000000);
+        } while (temp < 100);
 
         for (int i = 0; i < podaż.size(); i++) {
             for (int j = 0; j < popyt.size(); j++) {
