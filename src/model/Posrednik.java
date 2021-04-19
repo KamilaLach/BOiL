@@ -18,8 +18,8 @@ public class Posrednik {
         //przyklad rozwiazania optymalnego w pierwszej iteracji  gdzie popyt 2 i podaz 4
         this.podaż = new ArrayList<Integer>(Arrays.asList(15,20,25,30));
         this.popyt = new ArrayList<Integer>(Arrays.asList(10,28));
-        this.kosztZakupu = new ArrayList<Integer>(Arrays.asList(10,12,14,16));
-        this.zyskSprzedaży = new ArrayList<Integer>(Arrays.asList(30,25));
+        this.kosztZakupu = new ArrayList<Integer>(Arrays.asList(6,7,8,9));
+        this.zyskSprzedaży = new ArrayList<Integer>(Arrays.asList(22,25));
         this.kosztTransportu = new ArrayList<List<Integer>>(Arrays.asList(new ArrayList<Integer>(Arrays.asList(8,14)),new ArrayList<Integer>(Arrays.asList(17,12)),new ArrayList<Integer>(Arrays.asList(9,19)),new ArrayList<Integer>(Arrays.asList(4,8))));
         this.alpha = new ArrayList<Integer>(Arrays.asList(0,null,null,null,null));
         this.beta = new ArrayList<Integer>(Arrays.asList(null,null,null));
@@ -37,7 +37,7 @@ public class Posrednik {
     }
 
     public void calculate_profit_jednostkowy() {
-        // do przykladu rozwiazania optymalnego w pierwszej iteracji  gdzie popyt 2 i podaz 4
+//         do przykladu rozwiazania optymalnego w pierwszej iteracji  gdzie popyt 2 i podaz 4
         zysk_jednostkowy = new ArrayList<>(Arrays.asList(new ArrayList<Integer>(Arrays.asList(new Integer[2])),new ArrayList<Integer>(Arrays.asList(new Integer[2])),new ArrayList<Integer>(Arrays.asList(new Integer[2])),new ArrayList<Integer>(Arrays.asList(new Integer[2]))));
 
         // do przykladu rozwiazania gdzie popyt 3 i podaz 2 - zadanie z cwiczen
@@ -147,7 +147,6 @@ public class Posrednik {
                     alpha.set(i, null);
                     beta.set(j, null);
                 }
-
             }
         }
 
@@ -163,7 +162,16 @@ public class Posrednik {
                 }
             }
             temp = temp + 1;
-        } while (temp < 100);
+        } while (temp < 1000000);
+
+        for (int i = 0; i < podaż.size(); i++) {
+            for (int j = 0; j < popyt.size(); j++) {
+                if (alpha.get(i) == null || beta.get(j) == null){
+                    System.out.println("Nie można policzyć bet/alf - popraw dane");
+                    System.exit(1);
+                }
+            }
+        }
 
         System.out.println("Alfy: ");
         System.out.println(alpha);
@@ -174,7 +182,7 @@ public class Posrednik {
     public void calculate_tabela_wskaznikow() {
         for (int i = 0; i < podaż.size(); i++) {
             for (int j = 0; j < popyt.size(); j++) {
-                if(nullArray.get(i).get(j) == 0 ){ //jezeli obliczone wartosci wynosza null, to nie sa to wezly bazowe i liczymy delte, w przeciwnym razie delta = 0
+                if(nullArray.get(i).get(j) == 0 ){ //jezeli obliczone wartosci wynosza 0, to nie sa to wezly bazowe i liczymy delte, w przeciwnym razie delta = 0
                     delty.get(i).set(j, zysk_jednostkowy.get(i).get(j) - alpha.get(i) - beta.get(j));
                 }
                 else {
@@ -223,7 +231,7 @@ public class Posrednik {
 
         do {
             temp = 0;
-            count = temp;
+//            count = temp;
             for (int i = 0; i < podaż.size(); i++) {
                 for (int j = 0; j < popyt.size(); j++) {
                     if (i == newi && j == newj) { //jeśli ta wartosc jest wieksza od zera, to w nullArray bedzie zerem - szukamy innej minimalnej
